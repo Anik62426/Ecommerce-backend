@@ -49,7 +49,7 @@ app.use("/images", express.static("upload/images"));
 app.post("/upload",upload.single('product'),async(req,res)=>{
     res.json({
         success:1,
-        image_url:`https://e-com-uryk.onrender.com/images/${req.file.filename}`,
+        image_url:`https://ecommerce-backend-27wa.onrender.com/images/${req.file.filename}`,
     })
 })
 
