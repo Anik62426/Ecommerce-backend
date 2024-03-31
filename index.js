@@ -88,6 +88,10 @@ const Product = mongoose.model("Product", {
     type: Boolean,
     default: true,
   },
+  rating:{
+    type: Number,
+    require: true,
+  },
 });
 
 
@@ -109,7 +113,9 @@ app.post("/addproduct", async (req, res) => {
     category: req.body.category,
     new_price: req.body.new_price,
     old_price: req.body.old_price,
+    rating : req.body.rating
   });
+  console.log(req,product)
   await product.save();
   res.json({
     success: true,
@@ -181,6 +187,29 @@ app.post("/login",async (req,res)=>{
   else{
     res.json({success:false,error:"wrong Credential"});
   }
+})
+
+app.get("/search/:key",async (req,res)=>{
+ let searchItems = req.params.key.trim().toUpperCase()
+  let data = await Product.find(
+      {
+          "$or":[
+              {name:{$regex:searchItems}}
+              
+          ]
+      }
+  )
+  res.send(data);
+  console.log(data)
+})
+
+app.get('/fun/:key',async(req,res)=>{
+  let items = req.params.key
+  if(!items) return null
+  let item = Number(items)
+  console.log(item);
+  let products = await Product.find({ new_price: { $gte: 0, $lte: item } });
+  res.send(products)
 })
 
 app.get('/newcollections',async(req,res)=>{
