@@ -115,7 +115,6 @@ app.post("/addproduct", async (req, res) => {
     old_price: req.body.old_price,
     rating : req.body.rating
   });
-  console.log(req,product)
   await product.save();
   res.json({
     success: true,
@@ -190,27 +189,29 @@ app.post("/login",async (req,res)=>{
 })
 
 app.get("/search/:key",async (req,res)=>{
- let searchItems = req.params.key.trim().toUpperCase()
+ let searchByName = req.params.key.trim().toUpperCase()
+ let searchByCategory = req.params.key.trim().toLowerCase()
   let data = await Product.find(
       {
           "$or":[
-              {name:{$regex:searchItems}}
-              
-          ]
-      }
+              {name:{$regex:searchByName}},
+              {category:{$regex:searchByCategory}},
+          ],        
+      },
+      
   )
   res.send(data);
   console.log(data)
 })
 
-app.get('/fun/:key',async(req,res)=>{
-  let items = req.params.key
-  if(!items) return null
-  let item = Number(items)
-  console.log(item);
-  let products = await Product.find({ new_price: { $gte: 0, $lte: item } });
-  res.send(products)
-})
+// app.get('/fun/:key',async(req,res)=>{
+//   let items = req.params.key
+//   if(!items) return null
+//   let item = Number(items)
+//   console.log(item);
+//   let products = await Product.find({ new_price: { $gte: 0, $lte: item } });
+//   res.send(products)
+// })
 
 app.get('/newcollections',async(req,res)=>{
   let products = await Product.find({});
