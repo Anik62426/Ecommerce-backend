@@ -14,7 +14,6 @@ app.use(cors());
 dotenv.config({
   path: './env'
 })
-//
 
 // Database  connection
 
