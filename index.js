@@ -7,9 +7,22 @@ import multer from "multer";
 import path from "path";
 import dotenv from "dotenv"
 const app = express();
+import cartrouter from "../backend/routes/cart.routes.js"
+import  { Users } from "../backend/models/user.model.js";
+import { Product } from "./models/product.model.js";
 // import { uploadOnCloudinary } from "./untils/cloudinary.js";
+import compression from "compression";
+
+
+app.use(compression());
+
 app.use(express.json());
 app.use(cors());
+
+// const router = require("./routes/blog");
+
+
+app.use("/user",cartrouter)
 
 dotenv.config({
   path: './env'
@@ -45,6 +58,7 @@ app.use("/images", express.static("upload/images"));
 
 
 
+
 app.post("/upload",upload.single('product'),async(req,res)=>{
     res.json({
         success:1,
@@ -54,44 +68,44 @@ app.post("/upload",upload.single('product'),async(req,res)=>{
 
 // product schema
 
-const Product = mongoose.model("Product", {
-  id: {
-    type: Number,
-    required: true,
-  },
-  name: {
-    type: String,
-    require: true,
-  },
-  image: {
-    type: String,
-    require: true,
-  },
-  category: {
-    type: String,
-    require: true,
-  },
-  new_price: {
-    type: Number,
-    require: true,
-  },
-  old_price: {
-    type: Number,
-    require: true,
-  },
-  date: {
-    type: Date,
-    default: Date.now,
-  },
-  avilable: {
-    type: Boolean,
-    default: true,
-  },
-  rating:{
-    type: Number,
-    require: true,
-  },
-});
+// export const Product = mongoose.model("Product", {
+//   id: {
+//     type: Number,
+//     required: true,
+//   },
+//   name: {
+//     type: String,
+//     require: true,
+//   },
+//   image: {
+//     type: String,
+//     require: true,
+//   },
+//   category: {
+//     type: String,
+//     require: true,
+//   },
+//   new_price: {
+//     type: Number,
+//     require: true,
+//   },
+//   old_price: {
+//     type: Number,
+//     require: true,
+//   },
+//   date: {
+//     type: Date,
+//     default: Date.now,
+//   },
+//   avilable: {
+//     type: Boolean,
+//     default: true,
+//   },
+//   rating:{
+//     type: Number,
+//     require: true,
+//   },
+// });
 
 
 app.post("/addproduct", async (req, res) => {
@@ -121,25 +135,27 @@ app.post("/addproduct", async (req, res) => {
   });
 });
 
-const Users = mongoose.model('Users',{
-  name:{
-    type:String,
-  },
-  email:{
-    type:String,
-    unique:true,
-  },
-  password:{
-    type:String,
-  },
-  cartData:{
-    type:Object,
-  },
-  date:{
-    type:Date,
-    default:Date.now,
-  }
-})
+//  export const Users = mongoose.model('Users',{
+//   name:{
+//     type:String,
+//   },
+//   email:{
+//     type:String,
+//     unique:true,
+//   },
+//   password:{
+//     type:String,
+//   },
+//   cartData:{
+//     type:Object,
+//   },
+//   date:{
+//     type:Date,
+//     default:Date.now,
+//   }
+// })
+
+
 
 app.post("/Signup",async(req,res)=>{
   let check = await Users.findOne({email:req.body.email})
