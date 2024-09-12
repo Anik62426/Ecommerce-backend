@@ -7,7 +7,7 @@ import multer from "multer";
 import path from "path";
 import dotenv from "dotenv"
 const app = express();
-import cartrouter from "../backend/routes/cart.routes.js"
+
 import  { Users } from "../backend/models/user.model.js";
 import { Product } from "./models/product.model.js";
 // import { uploadOnCloudinary } from "./untils/cloudinary.js";
@@ -22,7 +22,7 @@ app.use(cors());
 // const router = require("./routes/blog");
 
 
-app.use("/user",cartrouter)
+// app.use("/user",cartrouter)
 
 dotenv.config({
   path: './env'
